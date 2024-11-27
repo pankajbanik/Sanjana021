@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favourite Things</title>
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-image: url('photo_2024-11-23_11-29-42.jpg'); /* Add your background image */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .music-container {
+      text-align: center;
+      background: hsla(0, 0%, 2%, 0.702); /* Semi-transparent background */
+      padding: 20px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .album-art {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 15px;
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .album-art:hover {
+      transform: scale(1.05);
+    }
+
+    .song-title {
+      font-size: 1.5rem;
+      margin: 15px 0;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .controls button {
+      background-color: hwb(120 95% 4%);
+      color: rgb(245, 47, 47);
+      border: none;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .controls button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .album-art {
+        max-width: 200px;
+      }
+      .controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="music-container">
+    <img id="album-art" class="album-art" src="album1.jpg" alt="Album Art"> <!-- Add album images -->
+    <div class="song-title" id="song-title">Classic Tune 1</div>
+
+    <div class="controls">
+      <button onclick="prevSong()">◁</button>
+      <button onclick="togglePlay()">𖹭</button>
+      <button onclick="nextSong()">▷</button>
+    </div>
+
+    <audio id="audio-player">
+      <source src="song1.mp3" type="audio/mpeg"> <!-- Add your audio files -->
+    </audio>
+  </div>
+
+  <script>
+    const audioPlayer = document.getElementById('audio-player');
+    const albumArt = document.getElementById('album-art');
+    const songTitle = document.getElementById('song-title');
+
+    const songs = [
+      { title: "Its Me Sanjana", file: "", image: "photo_2024-11-23_11-29-42.jpg" },
+      { title: "Favourite Actor", file: "", image: "download (8).jpg" },
+      { title: " Favourite Singer", file: "", image: "ARIJITIAN FANS (@arijitianfans) on X.jpg" },
+      { title: "Favourite Song", file: "audio.mp3", image: "download (9).jpg" },
+      { title: "Hobby", file: "", image: "Home Cooking Moment.jpg" },
+      { title: "Food", file: "", image: "cravings🙂.jpg" },
+      { title: "Color", file: "", image: "download (10).jpg" },
+      { title: "Place", file: "", image: "jaipur gulabi nagari💖📸.jpg" },
+
+
+
+
+      
+    ];
+    let currentSongIndex = 0;
+
+    // Function to load a song
+    function loadSong(index) {
+      const song = songs[index];
+      songTitle.textContent = song.title;
+      albumArt.src = song.image;
+      audioPlayer.src = song.file;
+      audioPlayer.play();
+    }
+
+    // Function to toggle play/pause
+    function togglePlay() {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+    }
+
+    // Function to play the next song
+    function nextSong() {
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong(currentSongIndex);
+    }
+
+    // Function to play the previous song
+    function prevSong() {
+      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      loadSong(currentSongIndex);
+    }
+
+    // Initially load the first song
+    loadSong(currentSongIndex);
+
+    // Change album art on click to move to the next song
+    albumArt.addEventListener('click', nextSong);
+  </script>
+</body>
+</html>

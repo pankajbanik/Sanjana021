@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>play music</title>
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('download (5).jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    .music-container {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .music-image {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .song-title {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .seek-bar {
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .seek-bar input {
+      width: 100%;
+      appearance: none;
+      height: 5px;
+      background: #555;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .seek-bar input::-webkit-slider-thumb {
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .timer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .controls button {
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .controls button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Media Queries for iPhone and Responsive Design */
+    @media (max-width: 480px) {
+      .music-container {
+        width: 100%;
+        margin: 0 10px;
+      }
+
+      .controls button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .song-title {
+        font-size: 16px;
+      }
+
+      .timer {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="music-container">
+    <img src="photo_2024-11-23_11-27-58.jpg" alt="Music Cover" class="music-image">
+    <div class="" id="song-title">love</div>
+    
+
+    <!-- Seek Bar -->
+    <div class="seek-bar">
+      <input type="range" id="seek-bar" value="0" min="0" max="100">
+    </div>
+    <div class="timer">
+      <span id="current-time">0:00</span>
+      <span id="total-duration">0:00</span>
+    </div>
+
+    <!-- Music Controls -->
+    <div class="controls">
+      <button onclick="prevSong()">◀ </button>
+      <button onclick="togglePlay()">ﮩ٨ـ❤️️</button>
+      <button onclick="nextSong()">&#9654;</button>
+    </div>
+    <audio id="audio-player"></audio>
+  </div>
+
+  <script>
+    // Music Player Functionality
+    const audioPlayer = document.getElementById('audio-player');
+    const songTitle = document.getElementById('song-title');
+    const seekBar = document.getElementById('seek-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const totalDurationEl = document.getElementById('total-duration');
+
+    const songs = [
+      { title: 'jaan nisaar', src: 'Jaan Nisaar - Lyrical _ Kedarnath_ Arijit Singh _ Sushant Singh Rajput _ Sara Ali Khan_ Amit Trivedi [ ezmp3.cc ].mp3' },
+      { title: 'Jaane De ', src: 'audio (1).mp3' },
+      { title: ' Baatein Ye Kabhi Na Tu Bhulna', src: 'Baatein Ye Kabhi Na Tu Bhulna.mp3' },
+      { title: ' Raanjhan', src: 'audio (2).mp3' },
+      { title: ' shiddat', src: 'audio.mp3' }
+      
+      
+
+    ];
+
+    let currentIndex = 0;
+
+    // Load the current song
+    function loadSong(index) {
+      audioPlayer.src = songs[index].src;
+      songTitle.textContent = songs[index].title;
+      audioPlayer.load();
+      audioPlayer.onloadedmetadata = () => {
+        totalDurationEl.textContent = formatTime(audioPlayer.duration);
+        seekBar.max = Math.floor(audioPlayer.duration);
+      };
+    }
+
+    // Format time in mm:ss
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+    }
+
+    // Update seek bar and timer
+    function updateSeekBar() {
+      seekBar.value = Math.floor(audioPlayer.currentTime);
+      currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+    }
+
+    // Seek to a specific time
+    seekBar.addEventListener('input', () => {
+      audioPlayer.currentTime = seekBar.value;
+    });
+
+    // Play/Pause toggle
+    function togglePlay() {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+    }
+
+    // Next Song
+    function nextSong() {
+      currentIndex = (currentIndex + 1) % songs.length;
+      loadSong(currentIndex);
+      audioPlayer.play();
+    }
+
+    // Previous Song
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+      loadSong(currentIndex);
+      audioPlayer.play();
+    }
+
+    // Event Listeners
+    audioPlayer.addEventListener('timeupdate', updateSeekBar);
+    audioPlayer.addEventListener('ended', nextSong);
+
+    // Initialize
+    loadSong(currentIndex);
+  </script>
+</body>
+</html>

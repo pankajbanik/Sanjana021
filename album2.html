@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>love</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+
+    }
+    .image-container {
+      position: fixed; /* Keeps the image fixed on the screen */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%; /* Adjust the width of the image */
+      max-width: 600px;
+    }
+    section {
+      height: 100vh; /* Full screen height for scrolling effect */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    #section1 { background-color: #f0eeee; }
+    #section2 { background-color: #7a9bbd; }
+    #section3 { background-color: #f50d0d; }
+    #section4 { background-color: hwb(60 29% 3%); }
+    #section5 { background-color: #fc0df0; }
+    #section6 { background-color: hsl(123, 87%, 66%); }
+    #section7 { background-color: hsl(281, 92%, 51%); }
+    #section8 { background-color: hsl(60, 3%, 6%); }
+  
+  </style>
+</head>
+<body>
+  <!-- Fixed Image Container -->
+  <div class="image-container">
+    <img id="scrollImage" src="image1.jpg" alt="Scroll Image" style="width: 100%; height: auto;">
+  </div>
+
+  <!-- Scrollable Sections -->
+  <section id="section1">### **About Me: Celebrating Life with Sanjana**  
+
+    Hi, I’m Sanjana—a passionate dreamer and creator with a love for life’s wonders.  Let’s explore, dream, and grow together!  
+</section>
+  <section id="section2">I find joy in exploring the beauty of Earth </section>
+  <section id="section3"> and sharing ideas that inspire and connect.</section>
+  <section id="section4"> Through this space,</section>
+
+
+  <section id="section5"> I aim to celebrate curiosity, 
+
+   
+</section>
+  <section id="section6">creativity, and the endless possibilities around us.</section>
+  <section id="section7">Let’s explore, dream,</section>
+  <section id="section8">and grow together!</section>
+
+
+
+  <script>
+    const images = [
+      'photo_2024-11-23_11-27-58.jpg', // Image for Section 1
+      '2 (8).jpg', // Image for Section 2
+      '2 (7).jpg', // Image for Section 3
+      'photo_2024-11-23_11-29-42.jpg' , // Image for Section 4
+      '2 (2).jpg', // Image for Section 1
+      'photo_2024-11-23_11-29-24.jpg', // Image for Section 2
+      '2 (5).jpg' , // Image for Section 4
+      'photo_2024-11-23_11-29-30.jpg', // Image for Section 3
+      '2 (4).jpg' , // Image for Section 4
+    ];
+    const sections = document.querySelectorAll('section');
+    const scrollImage = document.getElementById('scrollImage');
+
+    // Function to update the image based on the scroll position
+    const handleScroll = () => {
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top < window.innerHeight) {
+          scrollImage.src = images[index]; // Change image
+        }
+      });
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+  </script>
+
+
+
+
+
+</body>
+</html>
+
+
+
